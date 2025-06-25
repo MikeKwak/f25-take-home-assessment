@@ -1,46 +1,55 @@
+"use client";
+
+import { useState } from "react";
 import { WeatherForm } from "@/components/weather-form";
+import { WeatherLookup } from "@/components/weather-lookup";
+import { FoldableSidebar } from "@/components/foldable-sidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Cloud, Sun, Wind } from "lucide-react";
 
 export default function Home() {
+  const [geminiApiKey, setGeminiApiKey] = useState("");
+
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">
-            Weather System
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
+      
+      <div className="relative container mx-auto px-4 py-8">
+        {/* Enhanced Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
+              <Cloud className="w-8 h-8 text-primary" />
+            </div>
+            <div className="p-3 rounded-full bg-yellow-500/10 border border-yellow-500/20">
+              <Sun className="w-8 h-8 text-yellow-500" />
+            </div>
+            <div className="p-3 rounded-full bg-blue-500/10 border border-blue-500/20">
+              <Wind className="w-8 h-8 text-blue-500" />
+            </div>
+          </div>
+          <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            Weather Data System
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Submit weather requests and retrieve stored results
+          <p className="text-muted-foreground mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
+            Store and retrieve weather information with AI-powered summaries. 
+            Get detailed insights and intelligent analysis of weather patterns.
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Weather Form Section */}
-          <div className="flex flex-col items-center justify-start">
-            <h2 className="text-2xl font-semibold mb-4">
-              Submit Weather Request
-            </h2>
+        {/* Main Content - Enhanced Layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="space-y-6">
             <WeatherForm />
           </div>
-
-          {/* Data Lookup Section Placeholder */}
-          <div className="flex flex-col items-center justify-start">
-            <h2 className="text-2xl font-semibold mb-4">Lookup Weather Data</h2>
-            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8">
-              <div className="text-muted-foreground">
-                <h3 className="text-lg font-medium mb-2">
-                  TODO: Implement Data Lookup
-                </h3>
-                <p className="text-sm">
-                  This section should allow users to enter an ID and retrieve
-                  stored weather data.
-                </p>
-                <p className="text-xs mt-2 text-muted-foreground/75">
-                  Backend GET /weather/{"{id}"} endpoint is already implemented.
-                </p>
-              </div>
-            </div>
+          <div className="space-y-6">
+            <WeatherLookup geminiApiKey={geminiApiKey} />
           </div>
         </div>
+
+        {/* Foldable Sidebar */}
+        <FoldableSidebar onApiKeyChange={setGeminiApiKey} />
       </div>
     </div>
   );
